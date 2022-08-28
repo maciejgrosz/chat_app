@@ -1,0 +1,23 @@
+version: "3"
+networks:
+    chat_app_network:
+        external: true
+services:
+    app:
+        build: ./room_app/
+        container_name: chat_app
+        ports:
+            - "8000:5000"
+        networks:
+            - chat_app_network
+    db:
+        image: mysql:8.0.30
+        environment:
+            MYSQL_ROOT_PASSWORD: pass
+            MYSQL_DATABASE: chat_db
+        volumes:
+            - ./sqldb:/docker-entrypoint-initdb.d
+        ports:
+            - '3306:3306'
+        networks:
+            - chat_app_network

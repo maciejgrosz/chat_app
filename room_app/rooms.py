@@ -6,7 +6,7 @@ from flaskext.mysql import MySQL
 app = Flask(__name__)
 
 mysql = MySQL()
-app.config["MYSQL_DATABASE_HOST"] = "172.17.0.3"
+app.config["MYSQL_DATABASE_HOST"] = "172.27.0.3"
 app.config["MYSQL_DATABASE_USER"] = "app"
 app.config["MYSQL_DATABASE_PASSWORD"] = "pass"
 app.config["MYSQL_DATABASE_DB"] = "chat_db"
@@ -26,7 +26,7 @@ def api_chat(id):
     if request.method == "GET":
         cur.execute(f"SELECT * FROM chat WHERE ID={id}")
         data = cur.fetchall()
-        chat_history = [f"{record[3]}~({record[1]}): {record[2]}" for record in data]
+        chat_history = [f"[{record[3]}] {record[1]}: {record[2]}" for record in data]
         if not chat_history:
             chat_history.append("EMPTY HISTORY")
         return "\n".join(chat_history)
