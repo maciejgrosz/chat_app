@@ -1,7 +1,9 @@
 version: "3"
 networks:
     chat_app_network:
-        external: true
+        ipam:
+            config:
+                - subnet: "172.27.0.0/16"
 services:
     app:
         build: ./room_app/
@@ -9,7 +11,8 @@ services:
         ports:
             - "8000:5000"
         networks:
-            - chat_app_network
+            chat_app_network:
+                ipv4_address: 172.27.0.2
     db:
         image: mysql:8.0.30
         environment:
@@ -20,4 +23,5 @@ services:
         ports:
             - '3306:3306'
         networks:
-            - chat_app_network
+            chat_app_network:
+                ipv4_address: 172.27.0.3
